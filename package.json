@@ -1,0 +1,57 @@
+{
+    "name": "mongo-node-server",
+    "version": "1.0.0",
+    "description": "A server to test Mongo",
+    "main": "index.js",
+    "scripts": {
+      "start": "pm2 start ecosystem.config.json --no-daemon",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/ACODE91/mongo_server_node.git"
+    },
+    "author": "Aaron Lao",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/alaodd/SNMP-DD-Node-Server/issues"
+    },
+    "dependencies": {
+      "cors": "^2.8.5",
+      "cross-env": "^7.0.0",
+      "dotenv": "^10.0.0",
+      "express": "^4.17.1",
+      "helmet": "^4.1.0",
+      "http-status": "^1.4.0",
+      "joi": "^17.3.0",
+      "jsonwebtoken": "^8.5.1",
+      "moment": "^2.24.0",
+      "morgan": "^1.9.1",
+      "net-snmp": "^3.12.0",
+      "nodemailer": "^6.3.1",
+      "passport": "^0.4.0",
+      "pm2": "^5.1.0",
+      "swagger-jsdoc": "^6.0.8",
+      "swagger-ui-express": "^4.1.6",
+      "validator": "^13.0.0"
+    },
+    "devDependencies": {
+      "coveralls": "^3.0.7",
+      "eslint": "^7.0.0",
+      "eslint-config-airbnb-base": "^14.0.0",
+      "eslint-config-prettier": "^8.1.0",
+      "eslint-plugin-import": "^2.18.2",
+      "eslint-plugin-jest": "^24.0.1",
+      "eslint-plugin-prettier": "^3.1.1",
+      "eslint-plugin-security": "^1.4.0",
+      "faker": "^5.1.0",
+      "husky": "7.0.4",
+      "jest": "^26.0.1",
+      "lint-staged": "^11.0.0",
+      "node-mocks-http": "^1.8.0",
+      "nodemon": "^2.0.0",
+      "prettier": "^2.0.5",
+      "supertest": "^6.0.1"
+    }
+  }
+  
