@@ -1,30 +1,27 @@
 const express = require('express');
+const xss = require('xss-clean');
 const app = express();
-const MongoClient = require('mongodb').MongoClient;
+const mongoSanitize = require('express-mongo-sanitize');
+const cors = require('cors');
 require('dotenv').config();
 
-// Database Reference Objects
-const databasesObj = {
-  users: process.env.MONGO_USERS_DB }
 
-// Create a new MongoClient
-const client = new MongoClient(process.env.MONGO_LOCAL);
+// parse json request body
+app.use(express.json());
 
-async function connectToMongoDBServer() {
-  try {
-    await client.connect();
-    console.log("Connected successfully to MongoDB server");
-    const db = client.db(databasesObj.users);
-  } catch (err) {
-    console.error(err);
-  }
-}
+// parse urlencoded request body
+app.use(express.urlencoded({ extended: true }));
+
+// sanitize request data
+app.use(xss());
+app.use(mongoSanitize());
+
+// enable cors
+app.use(cors());
+app.options('*', cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(process.env.LOCAL_PORT, () => {
-  console.log(`Server is running at http://localhost:${process.env.LOCAL_PORT}`);
-  connectToMongoDBServer();
-});
+module.exports = app;
