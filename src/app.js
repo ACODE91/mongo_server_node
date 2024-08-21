@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const port = 3001;
+require('dotenv').config();
+
+const url = process.env.MONGO_LOCAL;
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
