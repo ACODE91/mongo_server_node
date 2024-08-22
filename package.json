@@ -2,10 +2,10 @@
     "name": "mongo-node-server",
     "version": "1.0.0",
     "description": "A server to test Mongo",
-    "main": "index.js",
+    "main": "app.js",
     "scripts": {
         "start": "pm2 start ecosystem.config.json --no-daemon",
-        "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+        "dev": "cross-env NODE_ENV=development nodemon src/app.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
