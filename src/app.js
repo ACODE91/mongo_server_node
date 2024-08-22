@@ -1,30 +1,48 @@
 const express = require('express');
+const xss = require('xss-clean');
 const app = express();
-const MongoClient = require('mongodb').MongoClient;
+const mongoSanitize = require('express-mongo-sanitize');
+const cors = require('cors');
+const httpStatus = require('http-status');
+const routes = require('./routes/v1');
+const MongoDB = require('./database/mongodb');
 require('dotenv').config();
 
-// Database Reference Objects
-const databasesObj = {
-  users: process.env.MONGO_USERS_DB }
 
-// Create a new MongoClient
-const client = new MongoClient(process.env.MONGO_LOCAL);
+const mongo = new MongoDB(process.env.MONGO_LOCAL, process.env.MONGO_USERS_DB);
+// parse json request body
+app.use(express.json());
 
-async function connectToMongoDBServer() {
-  try {
-    await client.connect();
-    console.log("Connected successfully to MongoDB server");
-    const db = client.db(databasesObj.users);
-  } catch (err) {
-    console.error(err);
-  }
-}
+// parse urlencoded request body
+app.use(express.urlencoded({ extended: true }));
+
+// sanitize request data
+app.use(xss());
+app.use(mongoSanitize());
+
+// enable cors
+app.use(cors());
+app.options('*', cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(process.env.LOCAL_PORT, () => {
-  console.log(`Server is running at http://localhost:${process.env.LOCAL_PORT}`);
-  connectToMongoDBServer();
-});
+mongo.connect()
+  .then(() => {
+    app.use((req, res, next) => {
+      req.mongo = mongo;
+      next();
+    });
+
+    // v1 api routes
+app.use('/v1', routes);
+
+    app.listen(process.env.LOCAL_PORT, () => {
+      console.log(`Server is running at http://localhost:${process.env.LOCAL_PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('Failed to connect to MongoDB:', err);
+    process.exit(1);
+  });
