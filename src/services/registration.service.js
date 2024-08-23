@@ -6,7 +6,7 @@ async function checkIfRegistered(collection, username) {
 async function registerUser(collection, UserData) {
     const foundUser = await checkIfRegistered(collection, UserData.username);
     if (!foundUser) {
-        await collection.insertOne(UserData);
+       return await collection.insertOne(UserData);
     }
 }
 
